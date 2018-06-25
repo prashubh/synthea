@@ -107,7 +107,16 @@
         "quantity": 1,
         "unit": "months"
       },
-      "direct_transition": "Set_Age_0"
+      "distributed_transition": [
+        {
+          "transition": "symptoms_dont_improve",
+          "distribution": 0.82
+        },
+        {
+          "transition": "Meconium Ileus",
+          "distribution": 0.18
+        }
+      ]
     },
     "Age 1": {
       "type": "Delay",
@@ -180,10 +189,6 @@
       },
       "direct_transition": "End_Screening"
     },
-    "": {
-      "type": "Simple",
-      "direct_transition": ""
-    },
     "End_Screening": {
       "type": "EncounterEnd",
       "distributed_transition": [
@@ -194,21 +199,6 @@
         {
           "transition": "Set_Gene_Mutation",
           "distribution": 0.05
-        }
-      ]
-    },
-    "Set_Age_0": {
-      "type": "SetAttribute",
-      "attribute": "age",
-      "value": 0,
-      "distributed_transition": [
-        {
-          "transition": "Neonatal_screening",
-          "distribution": 0.82
-        },
-        {
-          "transition": "Meconium Ileus",
-          "distribution": 0.18
         }
       ]
     },
@@ -372,7 +362,144 @@
         "quantity": 13,
         "unit": "weeks"
       },
-      "direct_transition": "Year Counter"
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "And",
+            "conditions": [
+              {
+                "condition_type": "Attribute",
+                "attribute": "diabetes",
+                "operator": "==",
+                "value": true
+              },
+              {
+                "condition_type": "Age",
+                "operator": "<=",
+                "quantity": 30,
+                "unit": "years",
+                "value": 0
+              }
+            ]
+          },
+          "distributions": [
+            {
+              "transition": "Year Counter",
+              "distribution": 0.987
+            },
+            {
+              "transition": "death",
+              "distribution": 0.013
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "And",
+            "conditions": [
+              {
+                "condition_type": "Age",
+                "operator": ">",
+                "quantity": 30,
+                "unit": "years"
+              },
+              {
+                "condition_type": "Attribute",
+                "attribute": "diabetes",
+                "operator": "==",
+                "value": true
+              }
+            ]
+          },
+          "distributions": [
+            {
+              "transition": "death",
+              "distribution": 0.035
+            },
+            {
+              "transition": "Year Counter",
+              "distribution": 0.965
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "BO_Syndrome",
+              "distribution": 0.0205
+            },
+            {
+              "transition": "Year Counter",
+              "distribution": 0.959
+            },
+            {
+              "transition": "Infection",
+              "distribution": 0.0205
+            }
+          ],
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "lung_transplanted",
+            "operator": "==",
+            "value": 1
+          }
+        },
+        {
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">",
+            "quantity": 20,
+            "unit": "years"
+          },
+          "distributions": [
+            {
+              "transition": "death",
+              "distribution": 0.021
+            },
+            {
+              "transition": "Year Counter",
+              "distribution": 0.979
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<=",
+            "quantity": 20,
+            "unit": "years",
+            "value": 0
+          },
+          "distributions": [
+            {
+              "transition": "Year Counter",
+              "distribution": 0.998
+            },
+            {
+              "transition": "death",
+              "distribution": 0.002
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Respiratory_Disease",
+              "distribution": 0.049
+            },
+            {
+              "transition": "Year Counter",
+              "distribution": 0.951
+            }
+          ],
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "lung_transplanted",
+            "operator": "==",
+            "value": 2
+          }
+        }
+      ]
     },
     "Getting_Diagnosed": {
       "type": "Simple",
@@ -447,13 +574,13 @@
       "type": "Simple",
       "conditional_transition": [
         {
-          "transition": "setChest",
           "condition": {
             "condition_type": "Attribute",
             "attribute": "year",
-            "operator": "==",
+            "operator": ">",
             "value": 8
-          }
+          },
+          "transition": "setYear"
         },
         {
           "condition": {
@@ -468,22 +595,94 @@
         }
       ]
     },
-    "setChest": {
-      "type": "SetAttribute",
-      "attribute": "check_chest",
-      "direct_transition": "setYear",
-      "value": true
-    },
     "setYear": {
       "type": "SetAttribute",
       "attribute": "year",
-      "direct_transition": "Quarterly_Checkup",
-      "value": 0
+      "value": 0,
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "And",
+            "conditions": [
+              {
+                "condition_type": "Age",
+                "operator": ">",
+                "quantity": 0,
+                "unit": "years"
+              },
+              {
+                "condition_type": "Age",
+                "operator": "<=",
+                "quantity": 8,
+                "unit": "years",
+                "value": 0
+              }
+            ]
+          },
+          "distributions": [
+            {
+              "transition": "Develop_Diabetes",
+              "distribution": 0.005
+            },
+            {
+              "transition": "Quarterly_Checkup",
+              "distribution": 0.995
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "And",
+            "conditions": [
+              {
+                "condition_type": "Age",
+                "operator": ">",
+                "quantity": 8,
+                "unit": "years"
+              },
+              {
+                "condition_type": "Age",
+                "operator": "<=",
+                "quantity": 18,
+                "unit": "years",
+                "value": 0
+              }
+            ]
+          },
+          "distributions": [
+            {
+              "transition": "Develop_Diabetes",
+              "distribution": 0.052
+            },
+            {
+              "transition": "Quarterly_Checkup",
+              "distribution": 0.948
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">",
+            "quantity": 18,
+            "unit": "years"
+          },
+          "distributions": [
+            {
+              "transition": "Develop_Diabetes",
+              "distribution": 0.067
+            },
+            {
+              "transition": "Quarterly_Checkup",
+              "distribution": 0.933
+            }
+          ]
+        }
+      ]
     },
     "Quarterly_Checkup": {
       "type": "Encounter",
       "encounter_class": "ambulatory",
-      "reason": "",
       "codes": [],
       "wellness": true,
       "conditional_transition": [
@@ -491,9 +690,41 @@
           "transition": "Chest_XRay",
           "condition": {
             "condition_type": "Attribute",
-            "attribute": "check_chest",
+            "attribute": "year",
             "operator": "==",
-            "value": true
+            "value": 8
+          }
+        },
+        {
+          "transition": "GlucoseTest",
+          "condition": {
+            "condition_type": "And",
+            "conditions": [
+              {
+                "condition_type": "And",
+                "conditions": [
+                  {
+                    "condition_type": "Age",
+                    "operator": ">=",
+                    "quantity": 10,
+                    "unit": "years",
+                    "value": 0
+                  },
+                  {
+                    "condition_type": "Attribute",
+                    "attribute": "year",
+                    "operator": "==",
+                    "value": 4
+                  }
+                ]
+              },
+              {
+                "condition_type": "Attribute",
+                "attribute": "testDiabetes",
+                "operator": "!=",
+                "value": 1
+              }
+            ]
           }
         },
         {
@@ -515,17 +746,17 @@
         "high": 2,
         "unit": "hours"
       },
-      "direct_transition": "setChestFalse"
-    },
-    "setChestFalse": {
-      "type": "SetAttribute",
-      "attribute": "check_chest",
-      "direct_transition": "setChestFalse",
-      "value": false
-    },
-    "new_state": {
-      "type": "Simple",
-      "direct_transition": "new_state"
+      "conditional_transition": [
+        {
+          "transition": "GlucoseTest",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "testDiabetes",
+            "operator": "!=",
+            "value": 1
+          }
+        }
+      ]
     },
     "Oropharyngeal_Culture": {
       "type": "Procedure",
@@ -541,28 +772,7 @@
         "high": 15,
         "unit": "minutes"
       },
-      "direct_transition": "Spirometry"
-    },
-    "Spirometry": {
-      "type": "Procedure",
-      "codes": [
-        {
-          "system": "SNOMED-CT",
-          "code": 127783003,
-          "display": "SNOMED Code"
-        }
-      ],
-      "duration": {
-        "low": 5,
-        "high": 15,
-        "unit": "minutes"
-      },
-      "distributed_transition": [
-        {
-          "transition": "Spirometry",
-          "distribution": 0.975
-        }
-      ]
+      "direct_transition": "Pulmonary_Function_Test"
     },
     "Develop_Diabetes": {
       "type": "ConditionOnset",
@@ -575,7 +785,217 @@
           "display": "Diabetes from Cystic Fibrosis"
         }
       ],
-      "direct_transition": "Develop_Diabetes"
+      "direct_transition": "diatbetesState"
+    },
+    "GlucoseTest": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 113076002,
+          "display": "Oral Glucose Tolerance Test"
+        }
+      ],
+      "duration": {
+        "low": 120,
+        "high": 150,
+        "unit": "minutes"
+      },
+      "conditional_transition": [
+        {
+          "transition": "DiabetesCarePlan",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "diabetes",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "Oropharyngeal_Culture"
+        }
+      ]
+    },
+    "diatbetesState": {
+      "type": "SetAttribute",
+      "attribute": "diabetes",
+      "direct_transition": "Quarterly_Checkup",
+      "value": true
+    },
+    "DiabetesCarePlan": {
+      "type": "CarePlanStart",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 308113006,
+          "display": "Self Monitoring of Blood Glucose"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 225302006,
+          "display": "Insulin Therapy"
+        }
+      ],
+      "direct_transition": "testDiabetes",
+      "reason": "Diabetes"
+    },
+    "testDiabetes": {
+      "type": "SetAttribute",
+      "attribute": "testDiabetes",
+      "direct_transition": "EndCheckup",
+      "value": 1
+    },
+    "EndCheckup": {
+      "type": "EncounterEnd",
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "lung_transplanted",
+            "operator": "!=",
+            "value": 1
+          },
+          "distributions": [
+            {
+              "transition": "Lung_Transplant_Considered",
+              "distribution": 0.007
+            },
+            {
+              "transition": "Life_With_Cystic_Fibrosis",
+              "distribution": 0.993
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Life_With_Cystic_Fibrosis",
+              "distribution": 1
+            }
+          ]
+        }
+      ]
+    },
+    "Lung_Transplant_Considered": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Lung_Transplant",
+          "distribution": 0.69
+        },
+        {
+          "transition": "Lung_Transplant_Denied",
+          "distribution": 0.31
+        }
+      ]
+    },
+    "Lung_Transplant_Denied": {
+      "type": "SetAttribute",
+      "attribute": "lung_transplant",
+      "direct_transition": "Life_With_Cystic_Fibrosis",
+      "value": 2
+    },
+    "Lung_Transplant": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 232657004,
+          "display": "Lung Transplant"
+        }
+      ],
+      "duration": {
+        "low": 4,
+        "high": 5,
+        "unit": "hours"
+      },
+      "direct_transition": "setTransplant",
+      "reason": "Cystic_Fibrosis"
+    },
+    "setTransplant": {
+      "type": "SetAttribute",
+      "attribute": "lung_transplant",
+      "direct_transition": "Life_With_Cystic_Fibrosis",
+      "value": 1
+    },
+    "death": {
+      "type": "Death",
+      "exact": {
+        "quantity": 1,
+        "unit": "days"
+      },
+      "direct_transition": "Terminal"
+    },
+    "Respiratory_Disease": {
+      "type": "ConditionOnset",
+      "assign_to_attribute": "",
+      "target_encounter": "Quarterly_Checkup",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 50043002,
+          "display": "Respiratory Disease"
+        }
+      ],
+      "direct_transition": "death"
+    },
+    "BO_Syndrome": {
+      "type": "ConditionOnset",
+      "assign_to_attribute": "",
+      "target_encounter": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 290006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "death"
+    },
+    "Take_Blood_Sample": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 82078001,
+          "display": "Take blood sample"
+        }
+      ],
+      "duration": {
+        "low": 10,
+        "high": 30,
+        "unit": "minutes"
+      },
+      "direct_transition": "EndCheckup"
+    },
+    "Pulmonary_Function_Test": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 23426006,
+          "display": "Pulmonary Function Test"
+        }
+      ],
+      "duration": {
+        "low": 5,
+        "high": 15,
+        "unit": "minutes"
+      },
+      "direct_transition": "Take_Blood_Sample"
+    },
+    "Infection": {
+      "type": "ConditionOnset",
+      "assign_to_attribute": "",
+      "target_encounter": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 40733004,
+          "display": "Infection"
+        }
+      ],
+      "direct_transition": "death"
     }
   }
 }
