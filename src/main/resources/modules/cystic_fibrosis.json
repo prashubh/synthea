@@ -62,6 +62,11 @@
             "race": "asian"
           }
         }
+      ],
+      "remarks": [
+        "https://ghr.nlm.nih.gov/condition/cystic-fibrosis#statistics",
+        "",
+        "The frequency dropdown shows statistics about fibrosis prevalence by race."
       ]
     },
     "Cystic_Fibrosis": {
@@ -169,6 +174,9 @@
         {
           "transition": "Sweat_Test"
         }
+      ],
+      "remarks": [
+        "https://www.cff.org/What-is-CF/Testing/"
       ]
     },
     "Sweat_Test": {
@@ -187,7 +195,8 @@
       },
       "direct_transition": "Gene_mutation_test",
       "remarks": [
-        "Salty sweat indicates CF"
+        "Salty sweat indicates CF",
+        "https://www.cff.org/What-is-CF/Testing/Sweat-Test/"
       ]
     },
     "Gene_mutation_test": {
@@ -207,15 +216,17 @@
       "distributed_transition": [
         {
           "transition": "Prescribe_Mucus_Thinner",
-          "distribution": 0.95
+          "distribution": 0.96
         },
         {
           "transition": "Set_Gene_Mutation",
-          "distribution": 0.05
+          "distribution": 0.04
         }
       ],
       "remarks": [
-        "CF is a genetic disease"
+        "CF is a genetic disease",
+        "https://www.cff.org/What-is-CF/Testing/",
+        ""
       ]
     },
     "End_Screening": {
@@ -226,7 +237,10 @@
       "type": "SetAttribute",
       "attribute": "G155D Mutation",
       "direct_transition": "Prescribe_Ivacaftor",
-      "value": true
+      "value": true,
+      "remarks": [
+        "Around 4% of CF patients have a gene mutation that causes the disease but can be treated with a different drug."
+      ]
     },
     "chronic_cough": {
       "type": "Symptom",
@@ -268,7 +282,10 @@
         "high": 2,
         "unit": "hours"
       },
-      "direct_transition": "Meconium_Ileus_Resolved"
+      "direct_transition": "Meconium_Ileus_Resolved",
+      "remarks": [
+        "http://www.seattlechildrens.org/medical-conditions/digestive-gastrointestinal-conditions/meconium-ileus/"
+      ]
     },
     "Male_Infertility": {
       "type": "ConditionOnset",
@@ -294,7 +311,10 @@
           "display": "Female Infertility"
         }
       ],
-      "direct_transition": "chronic_cough"
+      "direct_transition": "chronic_cough",
+      "remarks": [
+        "https://thorax.bmj.com/content/56/8/649"
+      ]
     },
     "Neonatal_screening": {
       "type": "Procedure",
@@ -321,6 +341,9 @@
         {
           "transition": "Sweat_Test"
         }
+      ],
+      "remarks": [
+        "https://www.cff.org/What-is-CF/Testing/Newborn-Screening-for-CF/"
       ]
     },
     "symptoms_dont_improve": {
@@ -347,7 +370,7 @@
         }
       ],
       "direct_transition": "End_Screening",
-      "reason": "Cystic Fibrosis",
+      "reason": "Cystic_Fibrosis",
       "activities": [
         {
           "system": "SNOMED-CT",
@@ -363,7 +386,22 @@
           "system": "SNOMED-CT",
           "code": 392020005,
           "display": "PICC care"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 226029000,
+          "display": "Exercise Therapy"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 386373004,
+          "display": "Nutrition Plan"
         }
+      ],
+      "remarks": [
+        "A CF careplan is characterized here:",
+        "",
+        "https://www.cff.org/Life-With-CF/Treatments-and-Therapies/Treatment-Plan/Managing-Your-Treatment-Plan/"
       ]
     },
     "Pancreatin": {
@@ -376,7 +414,12 @@
         }
       ],
       "direct_transition": "CF_CarePlan",
-      "reason": "Cystic_Fibrosis"
+      "reason": "Cystic_Fibrosis",
+      "remarks": [
+        "https://www.cff.org/Life-With-CF/Daily-Life/Fitness-and-Nutrition/Nutrition/Taking-Care-of-Your-Digestive-System/Enzymes/",
+        "",
+        "\"Between 85 and 90% of CF patients have pancreatic insufficiency."
+      ]
     },
     "Life_With_Cystic_Fibrosis": {
       "type": "Delay",
@@ -469,7 +512,7 @@
           ],
           "condition": {
             "condition_type": "Attribute",
-            "attribute": "lung_transplanted",
+            "attribute": "lung_transplant",
             "operator": "==",
             "value": "accepted"
           }
@@ -562,6 +605,9 @@
           "transition": "16_plus",
           "distribution": 0.068
         }
+      ],
+      "remarks": [
+        "https://www.cff.org/uploadedImages/Content/What_is_CF/age-at-diagnosis.jpg"
       ]
     },
     "Prescribe_Ivacaftor": {
@@ -574,7 +620,10 @@
         }
       ],
       "direct_transition": "Prescribe_Mucus_Thinner",
-      "reason": "Cystic Fibrosis"
+      "reason": "Cystic Fibrosis",
+      "remarks": [
+        "https://www.cff.org/About-Us/Media-Center/Press-Releases/The-Cystic-Fibrosis-Foundation-Applauds-FDA-Approval-of-Kalydeco/"
+      ]
     },
     "Prescribe_Mucus_Thinner": {
       "type": "MedicationOrder",
@@ -585,7 +634,7 @@
           "display": "Mucus Thinner"
         }
       ],
-      "reason": "Cystic Fibrosis",
+      "reason": "Cystic_Fibrosis",
       "distributed_transition": [
         {
           "transition": "Pancreatin",
@@ -665,6 +714,11 @@
         {
           "transition": "Oropharyngeal_Culture"
         }
+      ],
+      "remarks": [
+        "http://pediatrics.aappublications.org/content/early/2016/03/22/peds.2015-1784",
+        "",
+        "Overview of the standard of care per quarter"
       ]
     },
     "Chest_XRay": {
@@ -692,6 +746,9 @@
             }
           }
         }
+      ],
+      "remarks": [
+        "Chest X-rays should be done at least every other year, as shown in the link at \"Quarterly Checkup\""
       ]
     },
     "Oropharyngeal_Culture": {
@@ -797,6 +854,10 @@
         {
           "transition": "Oropharyngeal_Culture"
         }
+      ],
+      "remarks": [
+        "https://www.cff.org/Life-With-CF/Daily-Life/Cystic-Fibrosis-related-Diabetes/Managing-CFRD.pdf",
+        "\"The glucose test is recommended to be done at least annually\""
       ]
     },
     "diatbetesState": {
@@ -815,7 +876,7 @@
         }
       ],
       "direct_transition": "Oropharyngeal_Culture",
-      "reason": "Diabetes",
+      "reason": "Develop_Diabetes",
       "activities": [
         {
           "system": "SNOMED-CT",
@@ -865,13 +926,17 @@
       "type": "Simple",
       "distributed_transition": [
         {
-          "transition": "Lung_Transplant",
+          "transition": "Lung_Transplant_Wait",
           "distribution": 0.69
         },
         {
           "transition": "Lung_Transplant_Denied",
           "distribution": 0.31
         }
+      ],
+      "remarks": [
+        "https://www.sciencedirect.com/science/article/pii/S1569199315002106?viewFullText=true#f0015",
+        "Values for percent denied/accepted and disease related to lung transplant were taken from the link above.  The statistics are from the French registry so it might be a bit off from US stats"
       ]
     },
     "Lung_Transplant_Denied": {
@@ -894,7 +959,7 @@
         "high": 5,
         "unit": "hours"
       },
-      "direct_transition": "setTransplant",
+      "direct_transition": "Lung_Transplant_End",
       "reason": "Cystic_Fibrosis"
     },
     "setTransplant": {
@@ -1023,16 +1088,21 @@
       "distributed_transition": [
         {
           "transition": "no_double_infection",
-          "distribution": 0.0032
+          "distribution": 0.0058
         },
         {
           "transition": "no_double_infection_2",
-          "distribution": 0.0058
+          "distribution": 0.0032
         },
         {
           "transition": "Quarterly_Checkup",
           "distribution": 0.991
         }
+      ],
+      "remarks": [
+        "https://www.cff.org/Research/Researcher-Resources/Patient-Registry/2017-Cystic-Fibrosis-Foundation-Patient-Registry-Highlights.pdf",
+        "Statistics for infections are taken from the 2017 registry",
+        ""
       ]
     },
     "Develop_Infection_1": {
@@ -1071,7 +1141,10 @@
         }
       ],
       "direct_transition": "Pulmonary_Function_Test",
-      "reason": "Pseudomonas Aeruginosa infection"
+      "reason": "Develop_Infection_1",
+      "remarks": [
+        "https://www.ncbi.nlm.nih.gov/pubmed/2941289"
+      ]
     },
     "Prescribe_Vancomycin": {
       "type": "MedicationOrder",
@@ -1086,7 +1159,7 @@
       "remarks": [
         "https://www.mayoclinic.org/diseases-conditions/staph-infections/diagnosis-treatment/drc-20356227"
       ],
-      "reason": "staphylococcus aureus infection"
+      "reason": "Develop_Infection_2"
     },
     "patient_dies": {
       "type": "Simple",
@@ -1191,11 +1264,14 @@
             }
           ]
         }
+      ],
+      "remarks": [
+        "https://www.sciencedirect.com/science/article/pii/S1569199315002106?viewFullText=true#f0015"
       ]
     },
     "Sepsis_Of_Paeruginosa": {
       "type": "ConditionOnset",
-      "assign_to_attribute": "",
+      "assign_to_attribute": "CF_Complication",
       "target_encounter": "Emergency_Room",
       "codes": [
         {
@@ -1208,8 +1284,7 @@
     },
     "Emergency_Room": {
       "type": "Encounter",
-      "encounter_class": "ambulatory",
-      "reason": "Release_From_Hospital",
+      "encounter_class": "emergency",
       "codes": [
         {
           "system": "SNOMED-CT",
@@ -1251,6 +1326,13 @@
             }
           }
         }
+      ],
+      "reason": "CF_Complication",
+      "remarks": [
+        "For Sepsis",
+        "https://www.mayoclinic.org/diseases-conditions/sepsis/diagnosis-treatment/drc-20351219",
+        "For Respiratory Failure",
+        "https://emedicine.medscape.com/article/167981-treatment"
       ]
     },
     "Intravenous_Infusion": {
@@ -1340,7 +1422,7 @@
     },
     "Sepsis_of_Staphylococcus_aureus": {
       "type": "ConditionOnset",
-      "assign_to_attribute": "",
+      "assign_to_attribute": "CF_Complication",
       "target_encounter": "Emergency_Room",
       "codes": [
         {
@@ -1490,7 +1572,7 @@
     },
     "pulmonary_exacerbation": {
       "type": "ConditionOnset",
-      "assign_to_attribute": "",
+      "assign_to_attribute": "CF_Complication",
       "target_encounter": "Emergency_Room",
       "codes": [
         {
@@ -1502,37 +1584,66 @@
       "direct_transition": "wheezing"
     },
     "Diabetes_Guard": {
-      "type": "Guard",
-      "allow": {
-        "condition_type": "Not",
-        "condition": {
-          "condition_type": "PriorState",
-          "name": "Develop_Diabetes"
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "diseaseSupplier",
+          "condition": {
+            "condition_type": "PriorState",
+            "name": "Develop_Diabetes"
+          }
+        },
+        {
+          "transition": "Develop_Diabetes"
         }
-      },
-      "direct_transition": "Develop_Diabetes"
+      ]
     },
     "no_double_infection": {
-      "type": "Guard",
-      "allow": {
-        "condition_type": "Not",
-        "condition": {
-          "condition_type": "PriorState",
-          "name": "Develop_Infection_1"
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Quarterly_Checkup",
+          "condition": {
+            "condition_type": "PriorState",
+            "name": "Develop_Infection_1"
+          }
+        },
+        {
+          "transition": "Develop_Infection_1"
         }
-      },
-      "direct_transition": "Develop_Infection_1"
+      ]
     },
     "no_double_infection_2": {
-      "type": "Guard",
-      "allow": {
-        "condition_type": "Not",
-        "condition": {
-          "condition_type": "PriorState",
-          "name": "Develop_Infection_2"
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Quarterly_Checkup",
+          "condition": {
+            "condition_type": "PriorState",
+            "name": "Develop_Infection_2"
+          }
+        },
+        {
+          "transition": "Develop_Infection_2"
         }
-      },
-      "direct_transition": "Develop_Infection_2"
+      ]
+    },
+    "Lung_Transplant_Wait": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 16602611000119108,
+          "display": "Awaiting transplantation of lung (situation)"
+        }
+      ],
+      "direct_transition": "Lung_Transplant"
+    },
+    "Lung_Transplant_End": {
+      "type": "EncounterEnd",
+      "direct_transition": "setTransplant"
     }
   }
 }
