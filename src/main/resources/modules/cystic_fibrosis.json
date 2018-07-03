@@ -1553,7 +1553,7 @@
     },
     "Release_From_Hospital": {
       "type": "EncounterEnd",
-      "direct_transition": "Life_With_Cystic_Fibrosis"
+      "direct_transition": "startDiseaseChain"
     },
     "patient_lives": {
       "type": "Simple",
@@ -1638,7 +1638,7 @@
     "Lung_Transplant_Wait": {
       "type": "Encounter",
       "encounter_class": "inpatient",
-      "reason": "Cystic_Fibrosis",
+      "reason": "",
       "codes": [
         {
           "system": "SNOMED-CT",
