@@ -423,10 +423,6 @@
     },
     "Life_With_Cystic_Fibrosis": {
       "type": "Delay",
-      "exact": {
-        "quantity": 13,
-        "unit": "weeks"
-      },
       "complex_transition": [
         {
           "condition": {
@@ -496,26 +492,48 @@
           ]
         },
         {
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "lung_transplant",
+            "operator": "==",
+            "value": "denied"
+          },
           "distributions": [
             {
-              "transition": "patient_dies",
-              "distribution": 0.0204
+              "distribution": 0.049,
+              "transition": "patient_dies"
             },
             {
-              "transition": "startDiseaseChain",
-              "distribution": 0.9696
+              "distribution": 0.931,
+              "transition": "startDiseaseChain"
             },
             {
-              "transition": "patient_lives",
-              "distribution": 0.01
+              "distribution": 0.02,
+              "transition": "patient_lives"
             }
-          ],
+          ]
+        },
+        {
           "condition": {
             "condition_type": "Attribute",
             "attribute": "lung_transplant",
             "operator": "==",
             "value": "accepted"
-          }
+          },
+          "distributions": [
+            {
+              "distribution": 0.0204,
+              "transition": "patient_dies"
+            },
+            {
+              "distribution": 0.9696,
+              "transition": "startDiseaseChain"
+            },
+            {
+              "distribution": 0.01,
+              "transition": "patient_lives"
+            }
+          ]
         },
         {
           "condition": {
@@ -526,16 +544,16 @@
           },
           "distributions": [
             {
-              "transition": "patient_dies",
-              "distribution": 0.021
+              "distribution": 0.021,
+              "transition": "patient_dies"
             },
             {
-              "transition": "startDiseaseChain",
-              "distribution": 0.969
+              "distribution": 0.969,
+              "transition": "startDiseaseChain"
             },
             {
-              "transition": "patient_lives",
-              "distribution": 0.01
+              "distribution": 0.01,
+              "transition": "patient_lives"
             }
           ]
         },
@@ -549,42 +567,25 @@
           },
           "distributions": [
             {
-              "transition": "startDiseaseChain",
-              "distribution": 0.996
+              "distribution": 0.996,
+              "transition": "startDiseaseChain"
             },
             {
-              "transition": "patient_dies",
-              "distribution": 0.002
+              "distribution": 0.002,
+              "transition": "patient_dies"
             },
             {
-              "transition": "patient_lives",
-              "distribution": 0.002
+              "distribution": 0.002,
+              "transition": "patient_lives"
             }
           ]
-        },
-        {
-          "distributions": [
-            {
-              "transition": "patient_dies",
-              "distribution": 0.049
-            },
-            {
-              "transition": "startDiseaseChain",
-              "distribution": 0.931
-            },
-            {
-              "transition": "patient_lives",
-              "distribution": 0.02
-            }
-          ],
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "lung_transplant",
-            "operator": "==",
-            "value": "denied"
-          }
         }
-      ]
+      ],
+      "range": {
+        "low": 12,
+        "high": 14,
+        "unit": "weeks"
+      }
     },
     "Getting_Diagnosed": {
       "type": "Simple",
@@ -630,8 +631,8 @@
       "codes": [
         {
           "system": "RxNorm",
-          "code": 74704,
-          "display": "Mucus Thinner"
+          "code": 205532,
+          "display": "Pulmozyme (Dornase Alfa)"
         }
       ],
       "reason": "Cystic_Fibrosis",
@@ -658,7 +659,13 @@
     "Quarterly_Checkup": {
       "type": "Encounter",
       "encounter_class": "ambulatory",
-      "codes": [],
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185349003,
+          "display": "Encounter for check up"
+        }
+      ],
       "conditional_transition": [
         {
           "transition": "GlucoseTest",
@@ -955,9 +962,9 @@
         }
       ],
       "duration": {
-        "low": 4,
+        "low": 2,
         "high": 5,
-        "unit": "hours"
+        "unit": "days"
       },
       "direct_transition": "Lung_Transplant_End",
       "reason": "Cystic_Fibrosis"
@@ -1630,8 +1637,8 @@
     },
     "Lung_Transplant_Wait": {
       "type": "Encounter",
-      "encounter_class": "ambulatory",
-      "reason": "",
+      "encounter_class": "inpatient",
+      "reason": "Cystic_Fibrosis",
       "codes": [
         {
           "system": "SNOMED-CT",
